@@ -6,33 +6,33 @@
  */
 void insertion_sort_list(listint_t **list); 
 {
-	listint_t *tmp, *prev, *next;
+	listint_t *node = NULL, *tmp = NULL;
 
 	if (list == NULL || *list == NULL || (*list)->next == NULL)
 		return;
 
-	tmp = *list;
-	tmp = tmp->next;
-	while (tmp)
+	node = *list;
+	node = node->next;
+	while (node)
 	{
 		while (node->prev && node->n < (node->prev)->n)
 		{
-			if (tmp->next)
-				(tmp->next)->prev = tmp->prev;
-			(tmp->prev)->next = tmp->next;
-			tmp = tmp->prev;
-			tmp->prev = tmp->prev;
-			tmp->next = tmp;
-			if (tmp->prev)
-				(tmp->prev)->next = tmp;
-			tmp->prev = tmp;
+			tmp = node;
+			if (node->next)
+				(node->next)->prev = tmp->prev;
+			(node->prev)->next = tmp->next;
+			node = node->prev;
+			tmp->prev = node->prev;
+			tmp->next = node;
+			if (node->prev)
+				(node->prev)->next = tmp;
+			node->prev = tmp;
 			if (tmp->prev == NULL)
 				*list = tmp;
 			print_list(*list);
-			tmp = tmp->prev;
+			node = node->prev;
 		}
-		tmp = tmp->next;
+		node = node->next;
 	}
 
 }
-
