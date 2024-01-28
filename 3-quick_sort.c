@@ -8,43 +8,39 @@
  * @size: size of the array
  * Return: index of the pivot
 */
-
-int partition(int *array, size_t size, int left, int right)
+int partition(int *array, int low, int high, size_t size)
 {
-	int *pivot, above, below;
+	int pivot = array[high], i = low - 1, tmp;
+	int j = low;
 
-	pivot = array + right;
-	for (above = below = left; below < right; below++)
+	while (j < high)
 	{
-		if (array[below] < *pivot)
+		if (array[j] <= pivot)
 		{
-			if (above < below)
-			{
-				swap_ints(array + below, array + above);
+			i++;
+			tmp = array[i];
+			array[i] = array[j];
+			array[j] = tmp;
+			if (i != j)
 				print_array(array, size);
-			}
-			above++;
 		}
+		j++;
 	}
-
-	if (array[above] > *pivot)
-	{
-		swap_ints(array + above, pivot);
+	tmp = array[i + 1];
+	array[i + 1] = array[high];
+	array[high] = tmp;
+	if (i + 1 != j)
 		print_array(array, size);
-	}
-
-	return (above);
+	return (i + 1);
 }
 
 /**
- * _sort - Implement the quicksort algorithm through recursion.
- * @array: An array of integers to sort.
- * @size: The size of the array.
- * @left: The starting index of the array partition to order.
- * @right: The ending index of the array partition to order.
- *
- * Description: Uses the Lomuto partition scheme.
- */
+ * quicksort - helper function for quick_sort
+ * @array: array to sort
+ * @low: low index
+ * @high: high index
+ * @size: size of the array
+*/
 
 void quicksort(int *array, int low, int high, size_t size)
 {
@@ -63,7 +59,6 @@ void quicksort(int *array, int low, int high, size_t size)
  * @array: array to sort
  * @size: size of the array
 */
-
 void quick_sort(int *array, size_t size)
 {
 	if (array == NULL || size < 2)
